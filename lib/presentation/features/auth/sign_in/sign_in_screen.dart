@@ -29,11 +29,11 @@ class _SignInScreenState extends State<SignInScreen> {
       });
     }
   }
-  void _toggleRole(bool isVendor) {
+/*  void _toggleRole(bool isVendor) {
     setState(() {
       _selectedRole = isVendor ? "vendor" : "customer";
     });
-  }
+  }*/
   @override
   void dispose() {
     usernameController.dispose();
@@ -70,11 +70,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       const SizedBox(height: 40),
                       // 🔹 Role Switch
-                      RoleSwitch(
+                /*      RoleSwitch(
                         selectedRole: _selectedRole,
                         onToggle: _toggleRole,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 20),*/
                       // Username field
                       CustomTextField(
                         controller: usernameController,
