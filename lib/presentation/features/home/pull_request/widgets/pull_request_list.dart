@@ -1,7 +1,4 @@
-
-
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../../common_libraries.dart';
 
 class PullRequestList extends StatelessWidget {
@@ -30,49 +27,96 @@ class PullRequestList extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.all(12),
       itemCount: pullRequests.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
+      separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         final pr = pullRequests[index];
 
-        return ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-          leading: CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.blue.shade100,
-            backgroundImage: pr.user.avatarUrl.isNotEmpty
-                ? NetworkImage(pr.user.avatarUrl)
-                : null,
-            child: pr.user.avatarUrl.isEmpty
-                ? Text(
-              pr.user.login.isNotEmpty
-                  ? pr.user.login[0].toUpperCase()
-                  : "",
-              style: const TextStyle(
-                  color: Colors.blue, fontWeight: FontWeight.bold),
-            )
-                : null,
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: Colors.grey.shade200, width: 1),
           ),
-          title: Text(
-            pr.title,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("PR #${pr.number}", style: const TextStyle(fontSize: 13)),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  _buildStatusChip(status),
-                  const SizedBox(width: 8),
-                  Text(
-                    "by ${pr.user.login} • ${_formatTime(pr.createdAt)}",
-                    style:
-                    const TextStyle(fontSize: 12, color: Colors.grey),
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar
+                CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.blue.shade100,
+                  backgroundImage: pr.user.avatarUrl.isNotEmpty
+                      ? NetworkImage(pr.user.avatarUrl)
+                      : null,
+                  child: pr.user.avatarUrl.isEmpty
+                      ? Text(
+                    pr.user.login.isNotEmpty
+                        ? pr.user.login[0].toUpperCase()
+                        : "",
+                    style: const TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.bold),
+                  )
+                      : null,
+                ),
+                const SizedBox(width: 12),
+
+                // Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // PR title
+                      Text(
+                        pr.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+
+                      // Metadata row
+                      Row(
+                        children: [
+                          Icon(Icons.tag, size: 14, color: Colors.grey.shade600),
+                          const SizedBox(width: 4),
+                          Text(
+                            "#${pr.number}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: Colors.grey.shade600),
+                          ),
+                          const SizedBox(width: 12),
+                          _buildStatusChip(status),
+                          const SizedBox(width: 12),
+                          Icon(Icons.schedule,
+                              size: 14, color: Colors.grey.shade600),
+                          const SizedBox(width: 4),
+                          Text(
+                            _formatTime(pr.createdAt),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: Colors.grey.shade600),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 4),
+                      Text(
+                        "by ${pr.user.login}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: Colors.grey.shade700),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -102,12 +146,12 @@ class PullRequestList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         status,
         style: TextStyle(
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: FontWeight.w600,
           color: text,
         ),
@@ -115,7 +159,7 @@ class PullRequestList extends StatelessWidget {
     );
   }
 
-  /// 🔹 Format created date (simple version)
+  /// 🔹 Format created date
   String _formatTime(String createdAt) {
     if (createdAt.isEmpty) return "";
     final date = DateTime.tryParse(createdAt);
@@ -123,36 +167,52 @@ class PullRequestList extends StatelessWidget {
 
     final diff = DateTime.now().difference(date);
     if (diff.inDays > 0) {
-      return "${diff.inDays} days ago";
+      return "${diff.inDays}d ago";
     } else if (diff.inHours > 0) {
-      return "${diff.inHours} hours ago";
+      return "${diff.inHours}h ago";
     } else if (diff.inMinutes > 0) {
-      return "${diff.inMinutes} minutes ago";
+      return "${diff.inMinutes}m ago";
     } else {
       return "just now";
     }
   }
+
   /// 🔹 Shimmer effect while loading
   Widget _buildShimmerList() {
     return ListView.separated(
       padding: const EdgeInsets.all(12),
-      itemCount: 6, // show 6 shimmer items
-      separatorBuilder: (_, __) => const Divider(height: 1),
+      itemCount: 6,
+      separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
           baseColor: Colors.grey.shade300,
           highlightColor: Colors.grey.shade100,
-          child: ListTile(
-            leading: const CircleAvatar(radius: 20, backgroundColor: Colors.white),
-            title: Container(height: 14, width: 120, color: Colors.white),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 6),
-                Container(height: 12, width: 80, color: Colors.white),
-                const SizedBox(height: 4),
-                Container(height: 12, width: 140, color: Colors.white),
-              ],
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                      radius: 22, backgroundColor: Colors.white),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(height: 14, width: 180, color: Colors.white),
+                        const SizedBox(height: 8),
+                        Container(height: 12, width: 120, color: Colors.white),
+                        const SizedBox(height: 6),
+                        Container(height: 12, width: 80, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
