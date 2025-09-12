@@ -1,3 +1,5 @@
+import 'package:App/data/repositories/pull_request_repository.dart';
+
 import 'common_libraries.dart';
 
 void main() async {
@@ -25,6 +27,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<ChatRepository>(
           create: (context) => ChatRepository(),
+        ),
+        RepositoryProvider<PullRequestRepository>(
+          create: (context) => PullRequestRepository(),
         ),
       ],
       child: MaterialApp(

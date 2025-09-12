@@ -47,10 +47,6 @@ class _SignInScreenState extends State<SignInScreen> {
       create: (context) => AuthViewModelBloc(context),
       child: BlocBuilder<AuthViewModelBloc, AuthViewModelState>(
         builder: (context, state) {
-          final userId = Prefs.userId.get();
-          if(userId.isNotEmpty){
-            return const HomeScreen();
-          }
           return Scaffold(
             backgroundColor: Colors.white,
             body: Center(
@@ -111,20 +107,13 @@ class _SignInScreenState extends State<SignInScreen> {
                       /// Login button (enabled/disabled)
                       CustomButton(
                         text: "LOGIN",
-                        isLoading: state.pageStatus == PageStatus.loading,
-                        onPressed: isButtonEnabled &&
-                                state.pageStatus != PageStatus.loading
-                            ? () {
-                                context.read<AuthViewModelBloc>().add(
-                                      AuthViewModelLoginClickEvent(
-                                          LoginRequestModel(
-                                        email: usernameController.text,
-                                        password: passwordController.text,
-                                        role: _selectedRole,
-                                      )),
-                                    );
-                              }
-                            : null, // disabled
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()),
+                          );
+                        }, // disabled
                       ),
               
                       const SizedBox(height: 30),

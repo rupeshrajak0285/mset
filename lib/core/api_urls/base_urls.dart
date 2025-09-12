@@ -1,5 +1,6 @@
 class BaseAPIUrls {
   // Dev Base URLs
-  static const String baseApiUrl = "http://45.129.87.38:6065/";
+  static const String baseApiUrl = "https://api.github.com/repos/";
+  static const String pullRequestUrl = "rupeshrajak0285/mset/pulls";
 
 }

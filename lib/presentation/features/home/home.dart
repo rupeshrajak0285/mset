@@ -5,3 +5,4 @@ export 'chat_list/empty_chat_widget.dart';
 export 'chat_list/chat_list_item_widget.dart';
 export 'chat_detail/chat_input_field.dart';
 export 'chat_detail/chat_message_bubble.dart';
+export 'pull_request/pull_request.dart';
