@@ -4,12 +4,14 @@ class PullRequestViewModelState extends Equatable {
   final PageStatus pageStatus;
   final List<PullRequest> openPullRequests;
   final List<PullRequest> closePullRequests;
+  final List<GitCommit> commitHistory;
   final String? errorMessage;
 
   const PullRequestViewModelState({
     this.pageStatus = PageStatus.initial,
     this.openPullRequests = const [],
     this.closePullRequests = const [],
+    this.commitHistory = const [],
     this.errorMessage,
   });
 
@@ -19,6 +21,7 @@ class PullRequestViewModelState extends Equatable {
     openPullRequests,
     closePullRequests,
     errorMessage,
+    commitHistory
   ];
 
   PullRequestViewModelState copyWith({
@@ -26,12 +29,14 @@ class PullRequestViewModelState extends Equatable {
     List<PullRequest>? openPullRequests,
     List<PullRequest>? closePullRequests,
     String? errorMessage,
+    List<GitCommit>? commitHistory
   }) {
     return PullRequestViewModelState(
       pageStatus: pageStatus ?? this.pageStatus,
       openPullRequests: openPullRequests ?? this.openPullRequests,
       closePullRequests: closePullRequests ?? this.closePullRequests,
       errorMessage: errorMessage ?? this.errorMessage,
+        commitHistory : commitHistory ?? this.commitHistory
     );
   }
 }
