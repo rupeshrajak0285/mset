@@ -1,11 +1,8 @@
 part of 'pull_request_view_model_bloc.dart';
 
 class PullRequestViewModelEvent {}
-/// ✅ Event for fetching Approved Pull Requests
-class FetchApprovedPullRequests extends PullRequestViewModelEvent {}
+/// ✅ Fetch Open PRs
+class FetchOpenPullRequests extends PullRequestViewModelEvent {}
 
-/// ✅ Event for fetching Pending Pull Requests
-class FetchPendingPullRequests extends PullRequestViewModelEvent {}
-
-/// ✅ Event for fetching Closed Pull Requests
+/// ✅ Fetch Closed PRs
 class FetchClosedPullRequests extends PullRequestViewModelEvent {}
