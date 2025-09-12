@@ -31,14 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
             CircleAvatar(
               radius: 20,
               backgroundColor: Colors.blue.shade100,
-              child: Text(
-                userName.isNotEmpty ? userName[0].toUpperCase() : "?",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
+              backgroundImage:
+                   const NetworkImage("https://avatars.githubusercontent.com/u/183290071?v=4"),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -85,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ✅ GitHub shimmer loader
+  /// ✅ GitHub shimmer loader
   Widget _buildShimmerList(bool isDarkMode) {
     return ListView.builder(
       itemCount: 8,

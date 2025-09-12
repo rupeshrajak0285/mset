@@ -1,19 +1,26 @@
 
 
+import 'package:shimmer/shimmer.dart';
+
 import '../../../../../common_libraries.dart';
 
 class PullRequestList extends StatelessWidget {
   final List<PullRequest> pullRequests;
-  final String status; // "Open" / "Closed"
+  final PageStatus pageStatus;
+  final String status;
 
   const PullRequestList({
     Key? key,
     required this.pullRequests,
+    required this.pageStatus,
     required this.status,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (pageStatus == PageStatus.loading) {
+      return _buildShimmerList();
+    }
     if (pullRequests.isEmpty) {
       return const Center(
         child: Text("No pull requests found"),
@@ -39,7 +46,7 @@ class PullRequestList extends StatelessWidget {
                 ? Text(
               pr.user.login.isNotEmpty
                   ? pr.user.login[0].toUpperCase()
-                  : "?",
+                  : "",
               style: const TextStyle(
                   color: Colors.blue, fontWeight: FontWeight.bold),
             )
@@ -124,5 +131,32 @@ class PullRequestList extends StatelessWidget {
     } else {
       return "just now";
     }
+  }
+  /// 🔹 Shimmer effect while loading
+  Widget _buildShimmerList() {
+    return ListView.separated(
+      padding: const EdgeInsets.all(12),
+      itemCount: 6, // show 6 shimmer items
+      separatorBuilder: (_, __) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: ListTile(
+            leading: const CircleAvatar(radius: 20, backgroundColor: Colors.white),
+            title: Container(height: 14, width: 120, color: Colors.white),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 6),
+                Container(height: 12, width: 80, color: Colors.white),
+                const SizedBox(height: 4),
+                Container(height: 12, width: 140, color: Colors.white),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
