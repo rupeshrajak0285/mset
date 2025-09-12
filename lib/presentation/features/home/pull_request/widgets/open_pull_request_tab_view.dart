@@ -10,19 +10,30 @@ class OpenPullRequestTabView extends StatefulWidget {
 class _OpenPullRequestTabViewState extends State<OpenPullRequestTabView> {
   @override
   void initState() {
-    context.read<PullRequestViewModelBloc>().add(FetchOpenPullRequests());
     super.initState();
+    context.read<PullRequestViewModelBloc>().add(FetchOpenPullRequests());
   }
+
+  Future<void> _onRefresh() async {
+    /// 🔹 Trigger API call again
+    context.read<PullRequestViewModelBloc>().add(FetchOpenPullRequests());
+    /// Add a small delay so RefreshIndicator doesn’t disappear too fast
+    await Future.delayed(const Duration(milliseconds: 800));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PullRequestViewModelBloc, PullRequestViewModelState>(
       builder: (context, state) {
-        return PullRequestList(
-          pullRequests: state.openPullRequests,
-          status: "Open", // or "Closed"
+        return RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: PullRequestList(
+            pullRequests: state.openPullRequests,
+            status: "Open",
+            pageStatus: state.pageStatus,
+          ),
         );
       },
-    )
-    ;
+    );
   }
 }

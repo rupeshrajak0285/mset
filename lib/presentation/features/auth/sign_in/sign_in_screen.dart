@@ -65,12 +65,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 40),
-                      // 🔹 Role Switch
-                /*      RoleSwitch(
-                        selectedRole: _selectedRole,
-                        onToggle: _toggleRole,
-                      ),
-                      const SizedBox(height: 20),*/
                       // Username field
                       CustomTextField(
                         controller: usernameController,

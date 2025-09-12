@@ -1,4 +1,3 @@
-import 'package:App/data/repositories/pull_request_repository.dart';
 
 import 'common_libraries.dart';
 
@@ -24,9 +23,6 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepository(),
-        ),
-        RepositoryProvider<ChatRepository>(
-          create: (context) => ChatRepository(),
         ),
         RepositoryProvider<PullRequestRepository>(
           create: (context) => PullRequestRepository(),
