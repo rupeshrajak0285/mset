@@ -50,22 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: isDarkMode
-                  ? const Color(0xFF8B949E)
-                  : Colors.black87,
-            ),
-            tooltip: "Logout",
-            onPressed: () {
-              context.read<AuthViewModelBloc>().add(
-                AuthViewModelLogOutClickEvent(),
-              );
-            },
-          ),
-        ],
       ),
 
       // Body
@@ -80,29 +64,5 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// ✅ GitHub shimmer loader
-  Widget _buildShimmerList(bool isDarkMode) {
-    return ListView.builder(
-      itemCount: 8,
-      itemBuilder: (context, index) {
-        return Shimmer.fromColors(
-          baseColor: isDarkMode ? Colors.grey[800]! : Colors.grey[300]!,
-          highlightColor: isDarkMode ? Colors.grey[700]! : Colors.grey[100]!,
-          child: ListTile(
-            leading: const CircleAvatar(radius: 20, backgroundColor: Colors.white),
-            title: Container(
-              height: 14,
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(vertical: 4),
-            ),
-            subtitle: Container(
-              height: 12,
-              width: 120,
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(vertical: 4),
-            ),
-          ),
-        );
-      },
-    );
-  }
+
 }

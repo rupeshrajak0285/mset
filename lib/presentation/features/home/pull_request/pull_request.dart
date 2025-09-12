@@ -11,7 +11,7 @@ class PullRequestScreen extends StatefulWidget {
 class _PullRequestScreenState extends State<PullRequestScreen> {
   int selectedIndex = 0;
 
-  final List<String> tabs = ["Commit History","Open PR", "Closed PR"];
+  final List<String> tabs = ["Commits","Open PR", "Closed PR"];
 
   @override
   Widget build(BuildContext context) {
