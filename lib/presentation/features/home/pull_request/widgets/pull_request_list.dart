@@ -82,7 +82,7 @@ class PullRequestList extends StatelessWidget {
                           Icon(Icons.tag, size: 14, color: Colors.grey.shade600),
                           const SizedBox(width: 4),
                           Text(
-                            "#${pr.number}",
+                            "${pr.number}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
