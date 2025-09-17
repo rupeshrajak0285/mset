@@ -1,13 +1,19 @@
 
+import 'package:firebase_core/firebase_core.dart';
+
 import 'common_libraries.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ApiClientService.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // ye important hai Web ke liye
+  );
   await Prefs.init();
   // Set status bar color and icon brightness
   SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-    statusBarColor: Colors.blue.shade50, // Status bar background color
+    statusBarColor: Color(0xFF111827), // Status bar background color
     statusBarIconBrightness: Brightness.light, // For Android
     statusBarBrightness: Brightness.dark, // For iOS
   ));
@@ -33,7 +39,7 @@ class App extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: false, // switch to true if you want Material3
         ),
-        home: const SignInScreen(),
+        home: const FlexPayScreen(),
       ),
     );
   }
