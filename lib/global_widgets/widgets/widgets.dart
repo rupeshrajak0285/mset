@@ -1,3 +1,9 @@
 export 'avatar_widget.dart';
 export 'custom_tab_bar.dart';
 export 'custom_background_container.dart';
+export 'aspirant_card_image.dart';
+export 'aspirant_gradient_button.dart';
+export 'aspirant_link_row.dart';
+export 'aspirant_title_widget.dart';
+export 'aspirant_signup_row.dart';
+export 'aspirant_card_container.dart';

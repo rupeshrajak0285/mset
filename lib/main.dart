@@ -11,8 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform, // ye important hai Web ke liye
   );
   await Prefs.init();
-  // Set status bar color and icon brightness
-  SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
     statusBarColor: Color(0xFF111827), // Status bar background color
     statusBarIconBrightness: Brightness.light, // For Android
     statusBarBrightness: Brightness.dark, // For iOS
@@ -30,16 +29,14 @@ class App extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepository(),
         ),
-        RepositoryProvider<PullRequestRepository>(
-          create: (context) => PullRequestRepository(),
-        ),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: false, // switch to true if you want Material3
         ),
-        home: const FlexPayScreen(),
+        home:  const SignInScreen(),
       ),
     );
   }

@@ -17,3 +17,4 @@ export 'presentation/presentation.dart';
 export 'package:equatable/equatable.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:shared_preferences/shared_preferences.dart';
+export 'package:loading_animation_widget/loading_animation_widget.dart';

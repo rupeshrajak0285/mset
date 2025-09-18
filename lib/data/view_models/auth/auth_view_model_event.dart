@@ -6,4 +6,10 @@ class AuthViewModelLoginClickEvent extends AuthViewModelEvent{
   final LoginRequestModel loginRequestModel;
    AuthViewModelLoginClickEvent(this.loginRequestModel);
 }
+class AuthViewModelSignupClickEvent extends AuthViewModelEvent {
+  final SignupRequestModel signupRequestModel;
+
+  AuthViewModelSignupClickEvent(this.signupRequestModel);
+}
+
 class AuthViewModelLogOutClickEvent extends AuthViewModelEvent{}

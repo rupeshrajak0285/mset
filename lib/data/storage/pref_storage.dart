@@ -20,6 +20,8 @@ class Prefs {
   static final accessToken = SharedPrefValue<String>(PrefKeys.accessToken, prefs);
   static final userId = SharedPrefValue<String>(PrefKeys.userId, prefs);
   static final givenName = SharedPrefValue<String>(PrefKeys.givenName, prefs);
+  static final userRole = SharedPrefValue<String>(PrefKeys.userRole, prefs);
+
 
 
   /// Clears all shared preference data

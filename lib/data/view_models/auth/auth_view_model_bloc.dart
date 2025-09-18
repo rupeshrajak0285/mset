@@ -13,6 +13,7 @@ class AuthViewModelBloc extends Bloc<AuthViewModelEvent, AuthViewModelState> {
     authRepository = RepositoryProvider.of(context);
     on<AuthViewModelLoginClickEvent>(_onAuthViewModelLoginClickEvent);
     on<AuthViewModelLogOutClickEvent>(_onAuthViewModelLogOutClickEvent);
+    on<AuthViewModelSignupClickEvent>(_onAuthViewModelSignupClickEvent);
   }
 
   Future<void> _onAuthViewModelLoginClickEvent(
@@ -21,9 +22,13 @@ class AuthViewModelBloc extends Bloc<AuthViewModelEvent, AuthViewModelState> {
     try {
       emit(state.copyWith(pageStatus: PageStatus.loading));
       var loginResponse = await authRepository.userLogin(event.loginRequestModel);
-      Prefs.accessToken.set(loginResponse.data.token);
-      Prefs.userId.set(loginResponse.data.user.id);
-      Prefs.givenName.set(loginResponse.data.user.name);
+
+     // Save values from flat response
+      Prefs.accessToken.set(loginResponse.token);
+      Prefs.givenName.set(loginResponse.username);
+      Prefs.userRole.set(loginResponse.userRole);
+
+
       emit(state.copyWith(pageStatus: PageStatus.success, loginResponseData: loginResponse));
 
     } catch (ex) {
@@ -35,7 +40,37 @@ class AuthViewModelBloc extends Bloc<AuthViewModelEvent, AuthViewModelState> {
       ).show();
     }
   }
-void _onAuthViewModelLogOutClickEvent(
+  Future<void> _onAuthViewModelSignupClickEvent(
+      AuthViewModelSignupClickEvent event,
+      Emitter<AuthViewModelState> emit,
+      ) async {
+    try {
+      emit(state.copyWith(pageStatus: PageStatus.loading));
+
+      // Call API
+      var signupResponse =
+      await authRepository.userSignup(event.signupRequestModel);
+
+      // Save values from response (if API returns token, user info, etc.)
+      Prefs.accessToken.set(signupResponse.token ?? '');
+      Prefs.givenName.set(signupResponse.username ?? '');
+      Prefs.userRole.set(signupResponse.userRole ?? '');
+
+      emit(state.copyWith(
+        pageStatus: PageStatus.success,
+        loginResponseData: signupResponse,
+      ));
+    } catch (ex) {
+      emit(state.copyWith(pageStatus: PageStatus.failure));
+      AppToaster(
+        context: context,
+        notifyType: AppNotifyType.error,
+        content: ex.toString(),
+      ).show();
+    }
+  }
+
+  void _onAuthViewModelLogOutClickEvent(
       AuthViewModelLogOutClickEvent event,
       Emitter<AuthViewModelState> emit){
   Prefs.clear();

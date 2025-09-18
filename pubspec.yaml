@@ -30,6 +30,7 @@ dependencies:
   flutter_credit_card: ^4.1.0
   payment_card: ^0.0.1
   u_credit_card: ^1.4.0
+  loading_animation_widget: ^1.3.0
 
 
 dev_dependencies:
@@ -42,7 +43,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/fawry24.jpeg"
+  image_path: "assets/aspirant_league.png"
   remove_alpha_ios: true
 
 
@@ -53,7 +54,7 @@ flutter:
 
 flutter_native_splash:
   color: "#F75423"             # background color for splash
-  image: "assets/fawry24.jpeg" # show app logo in splash
+  image: "assets/aspirant_league.png" # show app logo in splash
   android: true
   ios: true
   android_gravity: center      # center the image
