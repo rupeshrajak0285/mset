@@ -173,9 +173,20 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: _usernameController,
                           hint: AppStrings.usernameHint,
                           icon: Icons.person,
-                          validator: (val) => val == null || val.isEmpty
-                              ? AppStrings.usernameRequired
-                              : null,
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return AppStrings.usernameRequired;
+                            }
+
+                            final regex = RegExp(r'^[a-zA-Z0-9]*[^a-zA-Z0-9][a-zA-Z0-9]*$');
+
+                            if (!regex.hasMatch(val)) {
+                              return 'Username must contain letters/numbers and exactly one special character';
+                            }
+
+                            return null; // valid
+                          },
+
                         ),
                         const SizedBox(height: 18),
 
