@@ -99,7 +99,7 @@ class FlexPayScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40,),
-          const Text("Welcome To Flex Pay", style: TextStyle(fontSize: 36, color: Color(0xFFFFFFFF), fontWeight: FontWeight.bold),),
+          const Text("Welcome To Flex Pay", style: TextStyle(fontSize: 30, color: Color(0xFFFFFFFF), fontWeight: FontWeight.bold),),
           const SizedBox(height: 20,),
           const Text("The future of your finances is here", style: TextStyle(fontSize: 18, color: Color(0xFF9CA3AF), fontWeight: FontWeight.w400),),
           const Spacer(),
@@ -114,7 +114,7 @@ class FlexPayScreen extends StatelessWidget {
               },
               child: Container(
                 height: 60,
-                width: 260,
+                width: 300,
                 decoration: BoxDecoration(
                   color: const Color(0xFF06B6D4),
                   borderRadius: BorderRadius.circular(16), // rounded corners
