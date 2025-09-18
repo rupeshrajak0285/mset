@@ -125,11 +125,12 @@ class _SignupScreenState extends State<SignupScreen> {
           }
           return Scaffold(
             backgroundColor: const Color(0xFFF5F5F5),
-            body: Center(
-              child: SingleChildScrollView(
-                child: AspirantCardWidget(
-                  child: Form(
-                    key: _formKey,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+              child: AspirantCardWidget(
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

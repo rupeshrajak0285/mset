@@ -21,24 +21,21 @@ class AspirantCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: margin,
-      child: Container(
-        padding: padding,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(borderRadius),
-          boxShadow: boxShadow ??
-              [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 12,
-                  spreadRadius: 2,
-                )
-              ],
-        ),
-        child: child,
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(borderRadius),
+        boxShadow: boxShadow ??
+            [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 12,
+                spreadRadius: 2,
+              )
+            ],
       ),
+      child: child,
     );
   }
 }

@@ -12,7 +12,7 @@ void main() async {
   );
   await Prefs.init();
   SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
-    statusBarColor: Color(0xFF111827), // Status bar background color
+    statusBarColor: Colors.white, // Status bar background color
     statusBarIconBrightness: Brightness.light, // For Android
     statusBarBrightness: Brightness.dark, // For iOS
   ));
