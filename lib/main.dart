@@ -1,6 +1,4 @@
-
 import 'package:firebase_core/firebase_core.dart';
-
 import 'common_libraries.dart';
 import 'firebase_options.dart';
 
@@ -12,7 +10,7 @@ void main() async {
   );
   await Prefs.init();
   SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
-    statusBarColor: Colors.white, // Status bar background color
+    statusBarColor: Colors.purple, // Status bar background color
     statusBarIconBrightness: Brightness.light, // For Android
     statusBarBrightness: Brightness.dark, // For iOS
   ));
@@ -36,8 +34,10 @@ class App extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: false, // switch to true if you want Material3
         ),
-        home:  const SignInScreen(),
+        home:  const GameSelectionScreen(),
       ),
     );
   }
 }
+
+
