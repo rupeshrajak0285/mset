@@ -17,8 +17,7 @@ class _ClosePullRequestTabViewState extends State<ClosePullRequestTabView> {
   Future<void> _onRefresh() async {
     /// 🔹 Trigger API call again
     context.read<PullRequestViewModelBloc>().add(FetchClosedPullRequests());
-    /// Small delay for smooth animation
-    await Future.delayed(const Duration(milliseconds: 800));
+
   }
 
   @override

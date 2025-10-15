@@ -18,6 +18,7 @@ class PullRequestViewModelBloc
     repository = RepositoryProvider.of(context);
     on<FetchOpenPullRequests>(_onFetchOpenPullRequests);
     on<FetchClosedPullRequests>(_onFetchClosedPullRequests);
+    on<FetchAllCommitHistory>(_onFetchAllCommitHistory);
   }
 
   Future<void> _onFetchOpenPullRequests(FetchOpenPullRequests event,
@@ -43,6 +44,21 @@ class PullRequestViewModelBloc
       emit(state.copyWith(pageStatus: PageStatus.loading));
       var pullRequests = await repository.getClosedPullRequests();
       emit(state.copyWith(pageStatus: PageStatus.success, closePullRequests: pullRequests));
+    } catch (ex) {
+      emit(state.copyWith(pageStatus: PageStatus.failure));
+      AppToaster(
+        context: context,
+        notifyType: AppNotifyType.error,
+        content: ex.toString(),
+      ).show();
+    }
+  }
+  Future<void> _onFetchAllCommitHistory(FetchAllCommitHistory event,
+      Emitter<PullRequestViewModelState> emit) async {
+    try {
+      emit(state.copyWith(pageStatus: PageStatus.loading));
+      var commitHistory = await repository.getCommitHistory();
+      emit(state.copyWith(pageStatus: PageStatus.success, commitHistory: commitHistory));
     } catch (ex) {
       emit(state.copyWith(pageStatus: PageStatus.failure));
       AppToaster(

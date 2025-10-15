@@ -29,19 +29,26 @@ class PullRequestRepository extends BaseRepository {
   Future<List<PullRequest>> getClosedPullRequests() =>
       getPullRequests(state: "closed");
 
-  /// Fetch all pull requests (open + closed)
-  Future<List<PullRequest>> getAllPullRequests() =>
-      getPullRequests(state: "all");
+  Future<List<GitCommit>> getCommitHistory() async {
+    try {
+      final response = await getRequest(BaseAPIUrls.commitHistoryUrl);
 
-  /// Fetch merged pull requests (special case of closed)
-  Future<List<PullRequest>> getMergedPullRequests() async {
-    final closedPRs = await getClosedPullRequests();
-    return closedPRs.where((pr) => pr.mergedAt != null).toList();
+      if (response.statusCode == 200 && response.data != null) {
+        if (response.data is List) {
+          return (response.data as List)
+              .cast<Map<String, dynamic>>()
+              .map((json) => GitCommit.fromJson(json))
+              .toList();
+        } else {
+          throw Exception("Unexpected response format: expected a List");
+        }
+      } else {
+        throw Exception("Failed to fetch commit history. Status: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception("Error fetching commit history: $e");
+    }
   }
 
-  /// Fetch only "closed but not merged" pull requests
-  Future<List<PullRequest>> getOnlyClosedNotMergedPullRequests() async {
-    final closedPRs = await getClosedPullRequests();
-    return closedPRs.where((pr) => pr.mergedAt == null).toList();
-  }
+
 }

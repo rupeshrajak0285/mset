@@ -6,3 +6,6 @@ class FetchOpenPullRequests extends PullRequestViewModelEvent {}
 
 /// ✅ Fetch Closed PRs
 class FetchClosedPullRequests extends PullRequestViewModelEvent {}
+
+/// ✅ Fetch Commit History
+class FetchAllCommitHistory extends PullRequestViewModelEvent {}

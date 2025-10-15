@@ -24,6 +24,12 @@ dependencies:
   socket_io_client: ^3.1.2
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
+  firebase_core: ^4.1.0
+  cloud_firestore: ^6.0.1
+  firebase_auth: ^6.0.2
+  flutter_credit_card: ^4.1.0
+  payment_card: ^0.0.1
+  u_credit_card: ^1.4.0
 
 
 dev_dependencies:
@@ -36,7 +42,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/mset_logo.png"
+  image_path: "assets/fawry24.jpeg"
   remove_alpha_ios: true
 
 
@@ -47,7 +53,7 @@ flutter:
 
 flutter_native_splash:
   color: "#F75423"             # background color for splash
-  image: "assets/mset_logo.png" # show app logo in splash
+  image: "assets/fawry24.jpeg" # show app logo in splash
   android: true
   ios: true
   android_gravity: center      # center the image

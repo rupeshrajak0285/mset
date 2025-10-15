@@ -1,4 +1,10 @@
-import '../../../../common_libraries.dart';
+
+
+import 'package:App/presentation/features/auth/sign_in/otp_verification_screen.dart';
+
+import '/common_libraries.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -8,162 +14,180 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool isButtonEnabled = false;
-  String _selectedRole = "vendor";
-  @override
-  void initState() {
-    super.initState();
-    usernameController.addListener(_validateForm);
-    passwordController.addListener(_validateForm);
-  }
+  final TextEditingController phoneController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void _validateForm() {
-    final isNotEmpty = usernameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty;
+  String? _verificationId;
 
-    if (isNotEmpty != isButtonEnabled) {
-      setState(() {
-        isButtonEnabled = isNotEmpty;
-      });
-    }
-  }
-/*  void _toggleRole(bool isVendor) {
-    setState(() {
-      _selectedRole = isVendor ? "vendor" : "customer";
-    });
-  }*/
-  @override
-  void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthViewModelBloc(context),
-      child: BlocBuilder<AuthViewModelBloc, AuthViewModelState>(
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Text(
-                        "Login",
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 40),
-                      // Username field
-                      CustomTextField(
-                        controller: usernameController,
-                        hintText: "Type your username",
-                        labelText: "Username",
-                        prefixIcon: Icons.person_outline,
-                      ),
-                      const SizedBox(height: 20),
-              
-                      // Password field
-                      CustomTextField(
-                        controller: passwordController,
-                        hintText: "Type your password",
-                        labelText: "Password",
-                        prefixIcon: Icons.lock_outline,
-                        obscureText: true,
-                      ),
-              
-                      const SizedBox(height: 10),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: CustomTextButton(
-                          text: "Forgot password?",
-                          textColor: Colors.grey,
-                          fontWeight: FontWeight.normal,
-                          onPressed: () {
-                            // Forgot password logic
-                          },
-                        ),
-                      ),
-              
-                      const SizedBox(height: 20),
-              
-                      /// Login button (enabled/disabled)
-                      CustomButton(
-                        text: "LOGIN",
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()),
-                          );
-                        }, // disabled
-                      ),
-              
-                      const SizedBox(height: 30),
-                      const Text(
-                        "Or Sign Up Using",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      const SizedBox(height: 15),
-              
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildSocialButton(Icons.facebook, Colors.blue),
-                          const SizedBox(width: 20),
-                          _buildSocialButton(
-                              Icons.alternate_email, Colors.lightBlue),
-                          const SizedBox(width: 20),
-                          _buildSocialButton(Icons.g_mobiledata, Colors.red),
-                        ],
-                      ),
-              
-                      AppDimens.spacerY50,
-                      const Text(
-                        "Or Sign Up Using",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey),
-                      ),
-              
-                      CustomTextButton(
-                        text: "SIGN UP",
-                        textColor: Colors.blue,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignUpScreen()),
-                          );
-                        },
-                      ),
-                    ],
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFF9500), Color(0xFFFFCC00)], // Orange → Yellow-Orange
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // App Logo
+              Container(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  "assets/fawry24.jpeg", // transparent background wali PNG rakho
+                  height: 100,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // App Name
+              const Text(
+                "Fawry24",
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 40),
+              // Phone Number Input
+              // Phone Number Input
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Color(0xFFFFF5DA), // light beige
+                    hintText: "Phone Number",
+                    hintStyle: const TextStyle(color: Colors.black54),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+
+              const SizedBox(height: 20),
+              // Send OTP Button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity, // full width
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF007BFF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 17),
+                    ),
+                    onPressed: isLoading ? null : _sendOTP,
+                    child: isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                      "Send OTP",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildSocialButton(IconData icon, Color color) {
-    return CircleAvatar(
-      radius: 24,
-      backgroundColor: color,
-      child: Icon(icon, color: Colors.white, size: 28),
+  Future<void> _sendOTP() async {
+    String phone = phoneController.text.trim();
+    if (phone.isEmpty) return;
+    if (!phone.startsWith('+')) {
+      phone = '+91$phone'; // assuming India
+    }
+    setState(() => isLoading = true);
+    print("Sending OTP to: $phone"); // ✅ payload print
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber: phone,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        print("Auto verification completed: $credential"); // ✅ payload print
+        try {
+          final userCredential = await _auth.signInWithCredential(credential);
+          print(
+              "Signed in user: ${userCredential.user?.uid}"); // ✅ payload print
+          await _saveUserToFirestore();
+          _navigateToHome();
+        } catch (e) {
+          print("Error during auto sign-in: $e"); // ✅ error print
+        }
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        setState(() => isLoading = false);
+        print(
+            "Verification failed: code=${e.code}, message=${e.message}"); // ✅ error print
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Verification Failed: ${e.message}")),
+        );
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print(
+            "Code sent! verificationId: $verificationId, resendToken: $resendToken"); // ✅ payload print
+        setState(() {
+          _verificationId = verificationId;
+          isLoading = false;
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => OtpVerificationScreen(
+              verificationId: verificationId,
+              saveUserCallback: _saveUserToFirestore,
+            ),
+          ),
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print(
+            "Code auto-retrieval timeout: $verificationId"); // ✅ payload print
+        _verificationId = verificationId;
+        setState(() => isLoading = false);
+      },
+    );
+  }
+
+  Future<void> _saveUserToFirestore() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+      'phoneNumber': user.phoneNumber,
+      'createdAt': FieldValue.serverTimestamp(),
+      'lastSeen': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+  }
+
+  void _navigateToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const RecentChatScreen()),
     );
   }
 }
+

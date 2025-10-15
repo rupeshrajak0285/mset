@@ -1,6 +1,5 @@
 export 'core/core.dart';
 export 'package:dio/dio.dart';
-
 export 'dart:convert';
 export 'package:flutter/foundation.dart';
 export 'global_widgets/global_widgets.dart';
@@ -17,5 +16,4 @@ export 'package:flutter/services.dart';
 export 'presentation/presentation.dart';
 export 'package:equatable/equatable.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
-
 export 'package:shared_preferences/shared_preferences.dart';
